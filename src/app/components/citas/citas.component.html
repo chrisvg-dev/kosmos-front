@@ -1,1 +1,22 @@
-<p>citas works!</p>
+<table class="table table-stripped">
+    <thead class="table-dark">
+      <tr>
+        <th>Paciente</th>
+        <th>Horario</th>
+        <th>Doctor</th>
+        <th>Consultorio</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cita of data">
+        <td>{{ cita.nombrePaciente }}</td>
+        <td>{{ cita.horarioConsulta }}</td>
+        <td>{{ cita.doctor.nombre }}</td>
+        <td>{{ cita.consultorio.numeroConsultorio }} - {{ cita.consultorio.piso }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="emitirEvento(cita.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+</table>

@@ -1,45 +1,26 @@
 <div class="container">
-  <form action="" class="card card-body" #f="ngForm" novalidate (ngSubmit)="guardarCita()">
-    <h1>Registrar cita</h1>
-    <input type="text" [(ngModel)]="paciente" name="paciente" placeholder="Nombre del paciente" required class="form-control">
-
-    <input type="datetime-local" [(ngModel)]="horario" name="horario" required>
-    <select name="doctorId" [(ngModel)]="doctorId" class="form-select">
-      <option value="0" disabled>Selecciona al doctor</option>
-      <option *ngFor="let doctor of doctores" [value]="doctor.id">{{ doctor.nombre }}</option>
-    </select>
-
-    <select name="consultorioId" [(ngModel)]="consultorioId" class="form-select" required>
-      <option value="0" disabled>Selecciona el consultorio</option>
-      <option *ngFor="let cons of listaConsultorio" [value]="cons.id">{{ cons.piso }}</option>
-    </select>
+  <div class="row">
+    <div class="col-md-4">
+      <form action="" class="card card-body" #f="ngForm" novalidate (ngSubmit)="guardarCita()">
+        <h1>Registrar cita</h1>
+        <input type="text" [(ngModel)]="paciente" name="paciente" placeholder="Nombre del paciente" required class="form-control">
     
+        <input type="datetime-local" [(ngModel)]="horario" name="horario" required>
+        <select name="doctorId" [(ngModel)]="doctorId" class="form-select">
+          <option value="0" disabled>Selecciona al doctor</option>
+          <option *ngFor="let doctor of doctores" [value]="doctor.id">{{ doctor.nombre }}</option>
+        </select>
     
-
-    <input type="submit" class="btn btn-secondary" [disabled]="!f.valid">
-  </form>
-
-  <br><hr>
-  <table class="table table-stripped">
-      <thead class="table-dark">
-        <tr>
-          <th>Paciente</th>
-          <th>Horario</th>
-          <th>Doctor</th>
-          <th>Consultorio</th>
-          <th>Opciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cita of citas">
-          <td>{{ cita.nombrePaciente }}</td>
-          <td>{{ cita.horarioConsulta }}</td>
-          <td>{{ cita.doctor.nombre }}</td>
-          <td>{{ cita.consultorio.numeroConsultorio }} - {{ cita.consultorio.piso }}</td>
-          <td>
-            <button class="btn btn-danger btn-sm" (click)="eliminarCita(cita.id)">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-  </table>
+        <select name="consultorioId" [(ngModel)]="consultorioId" class="form-select" required>
+          <option value="0" disabled>Selecciona el consultorio</option>
+          <option *ngFor="let cons of listaConsultorio" [value]="cons.id">{{ cons.piso }}</option>
+        </select>
+        <input type="submit" class="btn btn-secondary" [disabled]="!f.valid">
+      </form>
+    </div>
+    <div class="col-md-8">
+      <br><input type="text" placeholder="Filtro" class="form-control"><hr>
+      <citas [data]="citas" (emitter)="actualizarTabla($event)"></citas>
+    </div>
+  </div>
 </div>

@@ -26,6 +26,11 @@ export class AppComponent implements OnInit {
     this.listarCitas();
   }
 
+  public actualizarTabla(event: any): void {
+    console.log(event);
+    this.eliminarCita( event.citaId );
+  }
+
   public listarDoctores() {
     this.http.get(this.URL + "/doctores").subscribe({
       next: resp => this.doctores = resp,
@@ -41,7 +46,10 @@ export class AppComponent implements OnInit {
       "nombrePaciente": this.paciente
   }).subscribe({
       next: resp => {this.listarCitas();},
-      error: resp => console.log(resp)
+      error: resp => {
+        let data = resp as any;
+        alert(data.error.message);
+      }
     });
   }
 
@@ -63,12 +71,15 @@ export class AppComponent implements OnInit {
   }
 
   public eliminarCita(id: number) {
-    this.http.delete(this.URL + "/citas/cita/"+id).subscribe({
-      next: resp => {
-        alert(resp)
-        this.listarCitas();
-      },
-      error: resp => console.log(resp),
-    });
+    if ( confirm('Desea eliminar el registro?') ) {
+      this.http.delete(this.URL + "/citas/cita/"+id).subscribe({
+        next: resp => {
+          let data = resp as any;
+          alert(data.message)
+          this.listarCitas();
+        },
+        error: resp => console.log(resp),
+      });
+    }
   }
 }
