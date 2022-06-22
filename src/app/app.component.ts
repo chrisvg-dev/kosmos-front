@@ -26,6 +26,10 @@ export class AppComponent implements OnInit {
     this.listarCitas();
   }
 
+  public filtro(filtro: string): void {
+    alert(filtro);
+  }
+
   public actualizarTabla(event: any): void {
     console.log(event);
     this.eliminarCita( event.citaId );
@@ -52,7 +56,33 @@ export class AppComponent implements OnInit {
       }
     });
   }
-
+  
+  public listarCitasPorConsultorio(id: string) {
+    this.http.get(this.URL + "/citas/consultorio/"+id).subscribe({
+      next: resp => this.citas = resp,
+      error: resp => console.log(this.citas),
+    });
+  }
+  
+  public listarCitasPorDoctor(id: string) {
+    this.http.get(this.URL + "/citas/doctor/"+id).subscribe({
+      next: resp => this.citas = resp,
+      error: resp => console.log(this.citas),
+    });
+  }
+  public listarCitasPorFecha(fecha: string) {
+    this.http.get(this.URL + "/citas/"+fecha).subscribe({
+      next: resp => this.citas = resp,
+      error: resp => console.log(this.citas),
+    });
+  }
+  public listarCitasPorFechaDoctor(fecha: string, doctorId: string) {
+    this.http.get(this.URL + "/citas/"+fecha+"/doctor/"+doctorId).subscribe({
+      next: resp => this.citas = resp,
+      error: resp => console.log(this.citas),
+    });
+  }
+  
   public listarCitas() {
     this.http.get(this.URL + "/citas").subscribe({
       next: resp => this.citas = resp,
